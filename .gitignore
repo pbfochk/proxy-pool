@@ -1,0 +1,29 @@
+# 机密与本地配置
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa
+id_ed25519
+*.pub
+
+# 运行时产出的代理列表
+proxies.txt
+socks5_proxies.txt
+socks5_*.txt
+live.txt
+.proxies/
+
+# 真实 systemd 单元。仓库只提交 *.service.example
+*.service
+
+# Python / OS
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.Python
+.DS_Store
+*.log

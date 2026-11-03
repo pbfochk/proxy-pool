@@ -1,0 +1,19 @@
+[Unit]
+Description=Free Proxy Pool Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/proxy-pool
+# 生产环境把 --https-target "" 换成真实 HTTPS 地址，用来滤掉 TCP 通、但出口仍是本机的假代理。
+# 留空表示跳过 HTTPS 隧道校验。没有 PySocks / python3-socks 时追加 --no-socks5。
+# --socks5-local-dns 在校验机本地做 DNS（可用节点更多，DNS 查询留在本机）。去掉则使用 socks5h://。
+# token 写在 ExecStart 里时，ps 和 systemctl 都能看到。若要避开进程列表，删掉 --token，
+# 改为 Environment=PROXY_POOL_TOKEN=... ，程序会在未传 --token 时读取该变量。
+ExecStart=/usr/bin/python3 /opt/proxy-pool/proxy_server.py --port 32580 --interval 300 --anonymity --token CHANGE_ME --https-target "" --socks5-local-dns
+Restart=always
+RestartSec=10
+User=root
+
+[Install]
+WantedBy=multi-user.target

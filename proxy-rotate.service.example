@@ -1,0 +1,22 @@
+[Unit]
+Description=Local Rotating Proxy Gateway (mux to proxy-pool)
+# 可选组件：服务端本地轮换网关。不需要时保持禁用即可。
+# 启用前确认 proxy-pool 已在 32580 端口运行。
+After=network-online.target proxy-pool.service
+Wants=network-online.target
+Requires=proxy-pool.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/proxy-gateway
+# 必须保持 --listen 127.0.0.1。此进程没有鉴权，不要改成 0.0.0.0。
+# --type 只选择池子里的哪一份 ip:port 列表；上行协议仍是 HTTP CONNECT。
+ExecStart=/usr/bin/python3 /opt/proxy-gateway/rotate_gateway.py --listen 127.0.0.1 --port 7890 --pool http://127.0.0.1:32580 --token CHANGE_ME --type http --ttl 90
+Restart=always
+RestartSec=5
+User=root
+LimitNOFILE=65535
+# 排障时打开：Environment=GW_DEBUG=1
+
+[Install]
+WantedBy=multi-user.target
