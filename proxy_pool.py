@@ -138,6 +138,7 @@ def serve(pool, port):
     server = HTTPServer(("127.0.0.1", port), PoolHandler)
     server.pool = pool
     print(f"[*] 轮换 API 启动: http://127.0.0.1:{port}/ (随机)  /all (全部)")
+    print("[!] 这个一次性 API 没有鉴权，只监听 127.0.0.1。", flush=True)
     server.serve_forever()
 
 

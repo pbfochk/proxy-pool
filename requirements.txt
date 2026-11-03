@@ -1,0 +1,8 @@
+# proxy_server.py / proxy_pool.py 的 HTTP 客户端。
+# Python 3.9+。rotate_gateway.py 只用标准库，不依赖本文件。
+requests>=2.31,<3
+
+# SOCKS5 校验与取用需要 PySocks。
+# Debian/Ubuntu 系统包名是 python3-socks，提供同名 socks 模块。
+# 机器上装不上时，启动代理池加上 --no-socks5，只维护 HTTP 池。
+PySocks>=1.7.1
